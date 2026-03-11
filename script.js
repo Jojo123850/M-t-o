@@ -1,4 +1,4 @@
-// ── Carte Leaflet ──
+// Pour la carte
 const map = L.map('france-map', {
   center: [46.5, 2.5],
   zoom: 5,
@@ -20,7 +20,6 @@ const weatherIcon = L.divIcon({
   popupAnchor: [0, -36]
 });
 
-// ── Hook sur AffichageMeteo ──
 const _origAffichage = AffichageMeteo;
 window.AffichageMeteo = function(meteo) {
   _origAffichage(meteo);
@@ -39,7 +38,7 @@ window.AffichageMeteo = function(meteo) {
   map.flyTo([meteo.latitude, meteo.longitude], 8, { animate: true, duration: 1.2 });
 };
 
-// ── Favoris wrapper ──
+
 function updateFavWrapper() {
   const favs = JSON.parse(localStorage.getItem('favoris') || '[]');
   document.getElementById('favoritesWrapper').style.display = favs.length ? 'block' : 'none';
@@ -54,6 +53,8 @@ window.displayFavoris = function() {
 window.addEventListener('load', updateFavWrapper);
 
 
+
+// Météo
 class Meteo {
     constructor(name, temperature, description, longitude, latitude) {
         this.name = name;
@@ -64,6 +65,7 @@ class Meteo {
     }
 }
 
+//
 let lastMeteo = null;
 
 async function getWeather() {
@@ -111,9 +113,9 @@ async function getWeather() {
 
 
 function AffichageMeteo(maMeteo){
-    document.getElementById("city").textContent = "Ville : " + maMeteo.name;
+    document.getElementById("city").textContent =  maMeteo.name;
     document.getElementById("temp").textContent = "Température : " + maMeteo.temperature + "°C";
-    document.getElementById("desc").textContent = "Description : " + maMeteo.description;
+    document.getElementById("desc").textContent = maMeteo.description;
     document.getElementById("coord").textContent = `Latitude : ${maMeteo.latitude}, Longitude : ${maMeteo.longitude}`;
 }
 
@@ -148,17 +150,35 @@ function addFavorites(maMeteo){
 }
 
 const weatherDescriptions = {
-    0: "🔆 Ciel dégagé",
-    1: "🌤️ Principalement dégagé",
-    2: "⛅ Partiellement nuageux",
-    3: "☁️ Couvert",
-    45: "🌫️ Brouillard",
-    48: "🧊 Brouillard givrant",
-    51: "🌦️ Légère bruine",
-    61: "🌧️ Pluie",
-    71: "🌨️ Chute de neige",
-    80: "🌦️ Averses de pluie"
-};
+  0: "🔆 Soleil et ciel bleu",
+        1: "🌤️ Soleil, légèrement nuageux",
+        2: "⛅ En partie nuageux",
+        3: "☁️ Couvert",
+        45: "🌫️ Brouillard",
+        48: "🧊 Gros brouilard",
+        51: "🌦️ Légères averses",
+        53: "🌦️ Bruine",
+        55: "🌦️ Forte bruine",
+        56: "🌧️ Bruine froide",
+        57: "🌧️ Bruine glacée",
+        61: "🌧️ Pluie légère",
+        63: "🌧️ Pluie",
+        65: "🌧️ Forte pluie",
+        66: "🌧️ Pluie froide",
+        67: "🌧️ Pluie glacée",
+        71: "🌨️ Neige légère",
+        73: "🌨️ Neige",
+        75: "🌨️ Forte Neige",
+        80: "🌦️ Drache légère",
+        81: "🌧️ Drache",
+        83: "🌧️ Forte drache",
+        86: "🌨️ Pluie de neige",
+        95: "⛈️ Orage",
+        96: "⛈️ Orages légers avec grêle",
+        99: "⛈️ Orages avec grêle"
+}
+
+
 function displayFavoris(){
     let favoris = JSON.parse(localStorage.getItem("favoris")) || [];
     let favList = document.getElementById("favorisList");
@@ -179,9 +199,18 @@ function displayFavoris(){
             displayFavoris();
         };
 
+       const btnSee = document.createElement("button");
+        btnSee.textContent = "Voir";
+
+        btnSee.onclick = function() {
+            AffichageMeteo(fav);
+        };
+       
+
         divFav.appendChild(p);
         divFav.appendChild(btnDel);
         favList.appendChild(divFav);
+        divFav.appendChild(btnSee);
     });
 }
 
