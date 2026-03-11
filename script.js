@@ -148,23 +148,16 @@ function addFavorites(maMeteo){
 }
 
 const weatherDescriptions = {
-    0: "Impossible de déterminer la météo",
-    1: "Ciel dégagé",
-    2: "Nuages légers",
-    3: "Partiellement nuageux",
-    4: "Nuageux",
-    5: "Pluie",
-    6: "Pluie et neige",
-    7: "Neige",
-    8: "Averse de pluie",
-    9: "Averse de neige",
-    10: "Averse pluie et neige",
-    11: "Brouillard léger",
-    12: "Brouillard dense",
-    13: "Pluie verglaçante",
-    14: "Orage",
-    15: "Bruine",
-    16: "Tempête de sable"
+    0: "🔆 Ciel dégagé",
+    1: "🌤️ Principalement dégagé",
+    2: "⛅ Partiellement nuageux",
+    3: "☁️ Couvert",
+    45: "🌫️ Brouillard",
+    48: "🧊 Brouillard givrant",
+    51: "🌦️ Légère bruine",
+    61: "🌧️ Pluie",
+    71: "🌨️ Chute de neige",
+    80: "🌦️ Averses de pluie"
 };
 function displayFavoris(){
     let favoris = JSON.parse(localStorage.getItem("favoris")) || [];
@@ -173,9 +166,10 @@ function displayFavoris(){
 
     favoris.forEach((fav, index) => {
         const divFav = document.createElement("div");
-
+        
         let p = document.createElement("span");
-        p.textContent = `${fav.name} : ${fav.temperature} °C `;
+        p.textContent = `${fav.name} : ${fav.temperature} °C
+         `;
 
         const btnDel = document.createElement("button");
         btnDel.textContent = "Supprimer";
