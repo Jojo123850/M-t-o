@@ -1,0 +1,497 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Lato:wght@300;400;700&display=swap');
+
+/* ════════════════════════════
+   VARIABLES
+════════════════════════════ */
+:root {
+  --bg:        #f8f8f8;
+  --bg2:       #efefef;
+  --surface:   #ffffff;
+  --border:    #d4d4d4;
+  --accent:    #1a5c30;
+  --accent-dk: #0f3d1e;
+  --accent-lt: #d4ead9;
+  --text:      #1a1a1a;
+  --text-sub:  #444444;
+  --muted:     #777777;
+  --danger:    #b52a1a;
+  --radius:    14px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.07);
+  --shadow-md: 0 4px 20px rgba(0,0,0,.10);
+  --t:         0.2s ease;
+}
+
+/* ════════════════════════════
+   RESET
+════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ════════════════════════════
+   HEADER
+════════════════════════════ */
+header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  background: var(--accent);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: var(--accent);
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+
+.header-desc p {
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.search-bar {
+  display: flex;
+  gap: .4rem;
+  min-width: 300px;
+}
+
+input#ville {
+  flex: 1;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Lato', sans-serif;
+  font-size: .88rem;
+  padding: .6rem 1rem;
+  outline: none;
+  transition: border-color var(--t), box-shadow var(--t);
+}
+
+input#ville::placeholder { color: var(--muted); }
+
+input#ville:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26,92,48,.1);
+}
+
+/* ════════════════════════════
+   BUTTONS
+════════════════════════════ */
+button {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .01em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+}
+
+button:active { transform: scale(.96); }
+
+button[onclick="getWeather()"] {
+  background: var(--accent);
+  color: #fff;
+  padding: .6rem 1.3rem;
+  white-space: nowrap;
+}
+
+button[onclick="getWeather()"]:hover {
+  background: var(--accent-dk);
+  box-shadow: 0 4px 12px rgba(26,92,48,.25);
+}
+
+/* ════════════════════════════
+   H1
+════════════════════════════ */
+h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--text);
+  letter-spacing: -.02em;
+  padding: 2rem 2.5rem .75rem;
+}
+
+/* ════════════════════════════
+   MAIN LAYOUT
+════════════════════════════ */
+main {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+  padding: 0 2.5rem 3rem;
+  align-items: start;
+}
+
+/* ════════════════════════════
+   SIDEBAR
+════════════════════════════ */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+}
+
+/* ── Weather card ── */
+.weather-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-md);
+}
+
+.weather-card-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  padding: 1.25rem 0;
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.empty-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+}
+
+.city-row {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-bottom: .5rem;
+}
+
+h2#city {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: var(--text);
+}
+
+.weather-badge {
+  font-family: 'Nunito', sans-serif;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: var(--accent-lt);
+  color: var(--accent-dk);
+  padding: .18rem .55rem;
+  border-radius: 20px;
+}
+
+p#temp {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  color: var(--accent);
+  letter-spacing: -.04em;
+  line-height: 1;
+  margin-bottom: .35rem;
+}
+
+p#desc {
+  font-size: .88rem;
+  color: var(--text-sub);
+  font-style: italic;
+}
+
+p#coord {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .5rem;
+}
+
+/* ── Add to favorites ── */
+#favorites button {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px dashed var(--accent);
+  color: var(--accent);
+  padding: .65rem 1rem;
+  border-radius: var(--radius);
+  font-size: .88rem;
+}
+
+#favorites button:hover {
+  background: var(--accent-lt);
+  border-style: solid;
+}
+
+/* ── Favorites section ── */
+.favorites-section {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.fav-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .7rem;
+}
+
+#favorisList {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+#favorisList > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .65rem .9rem;
+  transition: border-color var(--t), box-shadow var(--t);
+}
+
+#favorisList > div:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+#favorisList span {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+#favorisList button {
+  background: transparent;
+  border: 1px solid rgba(181,42,26,.3);
+  color: var(--danger);
+  padding: .28rem .7rem;
+  border-radius: 7px;
+  font-size: .72rem;
+}
+
+#favorisList button:hover {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+/* ════════════════════════════
+   MAP
+════════════════════════════ */
+.map-wrapper {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-md);
+  background: var(--surface);
+  position: sticky;
+  top: 80px;
+}
+
+.map-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .8rem 1.2rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.map-header::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+#france-map {
+  height: 540px;
+  width: 100%;
+}
+
+/* ── Leaflet overrides ── */
+.leaflet-control-zoom {
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.leaflet-control-zoom a {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+  font-weight: 700 !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--bg2) !important;
+  color: var(--accent) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(255,255,255,.9) !important;
+  color: var(--muted) !important;
+  font-size: .65rem !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--accent) !important;
+  text-decoration: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-md) !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: .85rem 1rem !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--surface) !important;
+}
+
+.leaflet-popup-close-button {
+  color: var(--muted) !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: var(--text) !important;
+}
+
+.leaflet-container a {
+  color: var(--accent) !important;
+}
+
+.leaflet-container:focus {
+  outline: 2px solid var(--accent) !important;
+}
+
+.popup-content {
+  font-family: 'Nunito', sans-serif;
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.popup-content strong {
+  font-weight: 900;
+  font-size: .95rem;
+  color: var(--text);
+  display: block;
+  margin-bottom: .2rem;
+}
+
+.map-pin {
+  width: 13px;
+  height: 13px;
+  background: var(--accent);
+  border: 2.5px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+  animation: pinDrop .3s cubic-bezier(.3,1.5,.5,1) both;
+}
+
+/* ════════════════════════════
+   ANIMATIONS
+════════════════════════════ */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pinDrop {
+  from { opacity: 0; transform: scale(.2); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+@media (max-width: 900px) {
+  header {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: .75rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .header-desc { grid-column: 1 / -1; }
+  .search-bar  { grid-column: 1 / -1; }
+
+  main {
+    grid-template-columns: 1fr;
+    padding: 0 1.25rem 3rem;
+  }
+
+  .map-wrapper { position: static; }
+  #france-map  { height: 360px; }
+  h1           { padding: 1.5rem 1.25rem .75rem; }
+}
+
+@media (max-width: 500px) {
+  .logo-text  { display: none; }
+  p#temp      { font-size: 2.4rem; }
+  #france-map { height: 280px; }
+}

@@ -1,0 +1,124 @@
+<!-- <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Météo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header> 
+        <a href="/">
+            <img src="images/météo.png" alt="logo">
+        </a>  
+        <article>
+            <p>Retrouvez les prévisions météo automatiques de votre ville parmi toutes les communes de France métropolitaines via la recherche ci-dessous.
+            Ce service météo gratuit et de qualité est validé par des professionnels et passionnés.</p>
+            <input type="text" id="ville" placeholder="Rechercher une ville">
+        </article> 
+        <button onclick="getWeather()">Rechercher</button>
+    </header>
+
+    <h1>Prévision du temprs en France</h1>
+<section>
+    <h2 id="city"></h2>
+    <p id="temp"></p>
+    <p id="desc"></p>
+    <p id="coord"></p>
+</section>
+
+<section>
+    <div id="favorites"></div>
+    <div id="favorisList"></div>
+</section>
+
+
+
+<script src="script.js"></script>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Météo France</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+  <header>
+    <div class="header-brand">
+      <div class="logo-icon">
+  
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg>
+      </div>
+      <span class="logo-text">MétéoFrance</span>
+    </div>
+
+    <div class="header-desc">
+      <p>Retrouvez les prévisions météo de votre ville parmi toutes les communes
+      de France métropolitaine. Service gratuit validé par des professionnels.</p>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="ville" placeholder="Rechercher une ville…">
+      <button onclick="getWeather()">Rechercher</button>
+    </div>
+  </header>
+
+  <h1>Prévision du temps en France</h1>
+
+
+  <main>
+
+    <aside class="sidebar">
+
+
+      <section class="weather-card" id="weather-result">
+        <div class="weather-card-empty">
+          <div class="empty-icon">
+
+            <svg viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.94-.9A5 5 0 0 0 7 19h11a4 4 0 0 0 0-9z"/></svg>
+          </div>
+          <p>Recherchez une ville pour afficher la météo</p>
+        </div>
+        <div class="weather-card-content" style="display:none">
+          <div class="city-row">
+            <h2 id="city"></h2>
+            <span class="weather-badge">En direct</span>
+          </div>
+          <p id="temp"></p>
+          <p id="desc"></p>
+          <p id="coord"></p>
+        </div>
+      </section>
+
+      <div id="favorites"></div>
+
+   
+      <div class="favorites-section" id="favoritesWrapper" style="display:none">
+        <h3 class="fav-title">Villes favorites</h3>
+        <div id="favorisList"></div>
+      </div>
+
+    </aside>
+
+
+    <div class="map-wrapper">
+      <div class="map-header">Carte météo interactive</div>
+      <div id="france-map"></div>
+    </div>
+
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
